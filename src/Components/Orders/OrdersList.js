@@ -8,20 +8,25 @@ const OrdersList = () => {
 
   return (
     <section className='ordersList'>
-      <div className='head'>
-        <h6>ID</h6>
-        <h6>SYMBOL</h6>
-        <h6>QTY</h6>
-        <h6>LONG CDN</h6>
-        <h6>LONG ENTRY</h6>
-        <h6>LONG EXIT</h6>
-        <h6>LONG SLOSS</h6>
-        <h6>SHORT CDN</h6>
-        <h6>SHORT ENTRY</h6>
-        <h6>SHORT EXIT</h6>
-        <h6>SHORT SLOSS</h6>
-        <h6>STATUS</h6>
-      </div>
+      {orders.length ? (
+        <div className='head'>
+          <h6>ID</h6>
+          <h6>SYMBOL</h6>
+          <h6>QTY</h6>
+          <h6>LONG CDN</h6>
+          <h6>LONG ENTRY</h6>
+          <h6>LONG EXIT</h6>
+          <h6>LONG SLOSS</h6>
+          <h6>SHORT CDN</h6>
+          <h6>SHORT ENTRY</h6>
+          <h6>SHORT EXIT</h6>
+          <h6>SHORT SLOSS</h6>
+          <h6>STATUS</h6>
+        </div>
+      ) : (
+        ''
+      )}
+
       {orders.map((order) => (
         <OrderItem key={order.orderID} order={order} />
       ))}
