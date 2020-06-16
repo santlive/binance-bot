@@ -77,6 +77,9 @@ const AddOrder = () => {
   return (
     <section className='addOrder'>
       <div>
+        <span>SYMBOL/QTY</span>
+      </div>
+      <div>
         <select value={order.symbol} id='symbol' onChange={onChange}>
           {Object.keys(tickStatic).map((s) => (
             <option key={Math.round(Math.random() * 10 ** 10)} value={s}>
@@ -100,10 +103,13 @@ const AddOrder = () => {
         </button>
       </div>
       <div>
+        <span>LONG ORDERS</span>
+      </div>
+      <div>
         <input
           value={order.lcdnprice}
           onChange={onChange}
-          placeholder='Long Cdn Price...'
+          placeholder='Condition...'
           type='number'
           id='lcdnprice'
         />
@@ -112,7 +118,7 @@ const AddOrder = () => {
         <input
           value={order.lentryprice}
           onChange={onChange}
-          placeholder='Long Entry Price...'
+          placeholder='Entry...'
           type='number'
           id='lentryprice'
         />
@@ -121,7 +127,7 @@ const AddOrder = () => {
         <input
           value={order.lexitprice}
           onChange={onChange}
-          placeholder='Long Exit Price...'
+          placeholder='Exit...'
           type='number'
           id='lexitprice'
         />
@@ -130,16 +136,19 @@ const AddOrder = () => {
         <input
           value={order.lslprice}
           onChange={onChange}
-          placeholder='Long Sloss Price...'
+          placeholder='Stop Loss...'
           type='number'
           id='lslprice'
         />
       </div>
       <div>
+        <span>SHORT ORDERS</span>
+      </div>
+      <div>
         <input
           value={order.scdnprice}
           onChange={onChange}
-          placeholder='Short Cdn Price...'
+          placeholder='Condition...'
           type='number'
           id='scdnprice'
         />
@@ -148,7 +157,7 @@ const AddOrder = () => {
         <input
           value={order.sentryprice}
           onChange={onChange}
-          placeholder='Short Entry Price...'
+          placeholder='Entry...'
           type='number'
           id='sentryprice'
         />
@@ -157,7 +166,7 @@ const AddOrder = () => {
         <input
           value={order.sexitprice}
           onChange={onChange}
-          placeholder='Short Exit Price...'
+          placeholder='Exit...'
           type='number'
           id='sexitprice'
         />
@@ -166,7 +175,7 @@ const AddOrder = () => {
         <input
           value={order.sslprice}
           onChange={onChange}
-          placeholder='Short Sloss Price...'
+          placeholder='Stop Loss...'
           type='number'
           id='sslprice'
         />

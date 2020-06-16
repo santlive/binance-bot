@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Staatliches&display=swap');
+
+:root {
+  --primary-font: 'Staatliches', cursive;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -14,12 +20,17 @@ i {
   display: block;
 }
 
+h1 {
+  font-weight: normal;
+}
+
 header {
-  margin: 0rem 15rem;
+  margin: 0rem 10rem;
   display: flex;
   justify-content: flex-start;
   align-items: center;
   color: #eee;
+  font-family: var(--primary-font);
 }
 
 header i {
@@ -28,11 +39,11 @@ header i {
 }
 
 .addOrder {
-  margin: 2rem 15rem 4rem 15rem;
+  margin: 2rem 10rem 4rem 10rem;
   background: #eee;
   /* border-radius: 10px; */
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   grid-template-rows: repeat(3, 1fr);
   grid-column-gap: 1rem;
   grid-row-gap: 1rem;
@@ -41,18 +52,22 @@ header i {
   padding: 1rem 2rem 1rem 2rem;
 }
 
-.addOrder div:nth-child(3) {
-  grid-column: span 3;
+.addOrder div:nth-child(4) {
+  grid-column: span 2;
   justify-self: flex-end;
 }
 
-.addOrder div:nth-child(7) {
+.addOrder span {
+  font-family: var(--primary-font);
+}
+
+/* .addOrder div:nth-child(7) {
   grid-column: span 2;
 }
 
 .addOrder div:nth-child(11) {
   grid-column: span 2;
-}
+} */
 
 .addOrder input {
   padding: 0.25rem 0.5rem 0.15rem 0.5rem;
