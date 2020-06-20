@@ -61,14 +61,6 @@ header i {
   font-family: var(--primary-font);
 }
 
-/* .addOrder div:nth-child(7) {
-  grid-column: span 2;
-}
-
-.addOrder div:nth-child(11) {
-  grid-column: span 2;
-} */
-
 .addOrder input {
   padding: 0.25rem 0.5rem 0.15rem 0.5rem;
   border: 1px solid black;
