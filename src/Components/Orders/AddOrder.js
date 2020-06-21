@@ -7,16 +7,10 @@ const AddOrder = () => {
   const { add_order, tickStatic } = orderContext;
 
   const [order, setOrder] = useState({
-    symbol: 'BTCUSDT',
+    symbol: '',
     quantity: '',
-    lcdnprice: '',
-    lentryprice: '',
-    lexitprice: '',
-    lslprice: '',
-    scdnprice: '',
-    sentryprice: '',
-    sexitprice: '',
-    sslprice: '',
+    lprices: '',
+    sprices: '',
   });
 
   const onChange = (e) => {
@@ -29,14 +23,11 @@ const AddOrder = () => {
           tickStatic[order.symbol]['quantity']
         ),
       });
-    } else if (e.target.id.includes('price')) {
+    } else if (['lprices', 'sprices'].includes(e.target.id)) {
       //price
       setOrder({
         ...order,
-        [e.target.id]: normalize(
-          e.target.value,
-          tickStatic[order.symbol]['price']
-        ),
+        [e.target.id]: e.target.value,
       });
     } else {
       //symbol
@@ -58,6 +49,59 @@ const AddOrder = () => {
           'error'
         );
       } else {
+        //derive actual prices
+        const { symbol, quantity, lprices, sprices } = order;
+        const [lcdnprice, lentryprice, lexitprice, lslprice, ...lexcess] = [
+          ...lprices.split(','),
+        ].map((v) => normalize(v, tickStatic[symbol]['price']));
+        const [scdnprice, sentryprice, sexitprice, sslprice, ...sexcess] = [
+          ...sprices.split(','),
+        ].map((v) => normalize(v, tickStatic[symbol]['price']));
+
+        const isInvalid = [
+          lcdnprice,
+          lentryprice,
+          lexitprice,
+          lslprice,
+          scdnprice,
+          sentryprice,
+          sexitprice,
+          sslprice,
+        ].some((d) => !d);
+
+        if (isInvalid) {
+          swal(
+            'Failed!',
+            'Invalid values entered for Long/Short price fields!',
+            'error'
+          );
+          return;
+        }
+
+        const isExcess = lexcess.length || sexcess.length;
+
+        if (isExcess) {
+          swal(
+            'Failed!',
+            'More than four values entered for Long/Short price fields!',
+            'error'
+          );
+          return;
+        }
+
+        const payload = {
+          symbol,
+          quantity,
+          lcdnprice,
+          lentryprice,
+          lexitprice,
+          lslprice,
+          scdnprice,
+          sentryprice,
+          sexitprice,
+          sslprice,
+        };
+
         const approve = await swal({
           title: 'Are you sure?',
           text: 'Please confirm to proceed further!',
@@ -67,7 +111,7 @@ const AddOrder = () => {
         });
 
         if (approve) {
-          add_order(order);
+          add_order(payload);
           setOrder({ ...resetorder });
         }
       }
@@ -81,7 +125,7 @@ const AddOrder = () => {
       </div>
       <div>
         <select value={order.symbol} id='symbol' onChange={onChange}>
-          {Object.keys(tickStatic).map((s) => (
+          {['', ...Object.keys(tickStatic)].map((s) => (
             <option key={Math.round(Math.random() * 10 ** 10)} value={s}>
               {s}
             </option>
@@ -95,50 +139,20 @@ const AddOrder = () => {
           placeholder='Quantity...'
           type='number'
           id='quantity'
+          disabled={!order.symbol && true}
         />
-      </div>
-      <div>
-        <button onClick={addOrder} type='submit'>
-          ADD
-        </button>
       </div>
       <div>
         <span>LONG ORDERS</span>
       </div>
       <div>
         <input
-          value={order.lcdnprice}
+          value={order.lprices}
           onChange={onChange}
-          placeholder='Condition...'
-          type='number'
-          id='lcdnprice'
-        />
-      </div>
-      <div>
-        <input
-          value={order.lentryprice}
-          onChange={onChange}
-          placeholder='Entry...'
-          type='number'
-          id='lentryprice'
-        />
-      </div>
-      <div>
-        <input
-          value={order.lexitprice}
-          onChange={onChange}
-          placeholder='Exit...'
-          type='number'
-          id='lexitprice'
-        />
-      </div>
-      <div>
-        <input
-          value={order.lslprice}
-          onChange={onChange}
-          placeholder='Stop Loss...'
-          type='number'
-          id='lslprice'
+          placeholder='Condition,Entry,Exit,Stoploss...'
+          type='text'
+          id='lprices'
+          disabled={!order.symbol && true}
         />
       </div>
       <div>
@@ -146,39 +160,18 @@ const AddOrder = () => {
       </div>
       <div>
         <input
-          value={order.scdnprice}
+          value={order.sprices}
           onChange={onChange}
-          placeholder='Condition...'
-          type='number'
-          id='scdnprice'
+          placeholder='Condition,Entry,Exit,Stoploss...'
+          type='text'
+          id='sprices'
+          disabled={!order.symbol && true}
         />
       </div>
       <div>
-        <input
-          value={order.sentryprice}
-          onChange={onChange}
-          placeholder='Entry...'
-          type='number'
-          id='sentryprice'
-        />
-      </div>
-      <div>
-        <input
-          value={order.sexitprice}
-          onChange={onChange}
-          placeholder='Exit...'
-          type='number'
-          id='sexitprice'
-        />
-      </div>
-      <div>
-        <input
-          value={order.sslprice}
-          onChange={onChange}
-          placeholder='Stop Loss...'
-          type='number'
-          id='sslprice'
-        />
+        <button onClick={addOrder} type='submit'>
+          ADD
+        </button>
       </div>
     </section>
   );
@@ -187,16 +180,10 @@ const AddOrder = () => {
 const normalize = (d, n) => Math.trunc(Math.round(d * 10 ** n)) / 10 ** n;
 
 const resetorder = {
-  symbol: 'BTCUSDT',
+  symbol: '',
   quantity: '',
-  lcdnprice: '',
-  lentryprice: '',
-  lexitprice: '',
-  lslprice: '',
-  scdnprice: '',
-  sentryprice: '',
-  sexitprice: '',
-  sslprice: '',
+  lprices: '',
+  sprices: '',
 };
 
 export default AddOrder;
