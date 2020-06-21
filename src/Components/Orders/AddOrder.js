@@ -184,7 +184,7 @@ const AddOrder = () => {
   );
 };
 
-const normalize = (d, n) => Math.trunc(d * 10 ** n) / 10 ** n;
+const normalize = (d, n) => Math.trunc(Math.round(d * 10 ** n)) / 10 ** n;
 
 const resetorder = {
   symbol: 'BTCUSDT',
